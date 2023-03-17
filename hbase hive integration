@@ -1,0 +1,135 @@
+[training@localhost ~]$ hbase shell
+23/03/01 08:18:23 WARN conf.Configuration: hadoop.native.lib is deprecated. Instead, use io.native.lib.available
+HBase Shell; enter 'help<RETURN>' for list of supported commands.
+Type "exit<RETURN>" to leave the HBase Shell
+Version 0.92.1-cdh4.1.1, rUnknown, Tue Oct 16 11:44:19 PDT 2012
+
+hbase(main):001:0> help
+HBase Shell, version 0.92.1-cdh4.1.1, rUnknown, Tue Oct 16 11:44:19 PDT 2012
+Type 'help "COMMAND"', (e.g. 'help "get"' -- the quotes are necessary) for help on a specific command.
+Commands are grouped. Type 'help "COMMAND_GROUP"', (e.g. 'help "general"') for help on a command group.
+
+COMMAND GROUPS:
+  Group name: general
+  Commands: status, version, whoami
+
+  Group name: ddl
+  Commands: alter, alter_async, alter_status, create, describe, disable, disable_all, drop, drop_all, enable, enable_all, exists, is_disabled, is_enabled, list, show_filters
+
+  Group name: dml
+  Commands: count, delete, deleteall, get, get_counter, incr, put, scan, truncate
+
+  Group name: tools
+  Commands: assign, balance_switch, balancer, close_region, compact, flush, hlog_roll, major_compact, move, split, unassign, zk_dump
+
+  Group name: replication
+  Commands: add_peer, disable_peer, enable_peer, list_peers, remove_peer, start_replication, stop_replication
+
+  Group name: security
+  Commands: grant, revoke, user_permission
+
+SHELL USAGE:
+Quote all names in HBase Shell such as table and column names.  Commas delimit
+command parameters.  Type <RETURN> after entering a command to run it.
+Dictionaries of configuration used in the creation and alteration of tables are
+Ruby Hashes. They look like this:
+
+  {'key1' => 'value1', 'key2' => 'value2', ...}
+
+and are opened and closed with curley-braces.  Key/values are delimited by the
+'=>' character combination.  Usually keys are predefined constants such as
+NAME, VERSIONS, COMPRESSION, etc.  Constants do not need to be quoted.  Type
+'Object.constants' to see a (messy) list of all constants in the environment.
+
+If you are using binary keys or values and need to enter them in the shell, use
+double-quote'd hexadecimal representation. For example:
+
+  hbase> get 't1', "key\x03\x3f\xcd"
+  hbase> get 't1', "key\003\023\011"
+  hbase> put 't1', "test\xef\xff", 'f1:', "\x01\x33\x40"
+
+The HBase shell is the (J)Ruby IRB with the above HBase-specific commands added.
+For more on the HBase Shell, see http://hbase.apache.org/docs/current/book.html
+hbase(main):002:0> create 'hbaseUserRatings', 'cf1'
+0 row(s) in 1.3140 seconds
+
+hbase(main):003:0> put 'hbaseUserRatings','10000','cf1:movieid','42'
+0 row(s) in 0.0710 seconds
+
+hbase(main):004:0> put 'hbaseUserRatings','10000','cf1:movieid','5'             
+0 row(s) in 0.0060 seconds
+
+hbase(main):005:0> put 'hbaseUserRatings','10000','cf1:movieid','21'            
+0 row(s) in 0.0030 seconds
+
+hbase(main):006:0> put 'hbaseUserRatings','10000','cf1:movieid','4'             
+0 row(s) in 0.0040 seconds
+
+hbase(main):007:0> 'hbaseUserRatings'
+=> "hbaseUserRatings"
+hbase(main):008:0> quit
+[training@localhost ~]$ hive
+Logging initialized using configuration in file:/etc/hive/conf.dist/hive-log4j.properties
+Hive history file=/tmp/training/hive_job_log_training_202303010821_652636190.txt
+hive> add jar
+    > /usr/lib/hive/lib/hive-hbase-handler-0.9.0-cdh4.1.1.jar;
+Added /usr/lib/hive/lib/hive-hbase-handler-0.9.0-cdh4.1.1.jar to class path
+Added resource: /usr/lib/hive/lib/hive-hbase-handler-0.9.0-cdh4.1.1.jar
+hive>   add jar /usr/lib/hbase/hbase.jar;
+Added /usr/lib/hbase/hbase.jar to class path
+Added resource: /usr/lib/hbase/hbase.jar
+hive> CREATE EXTERNAL TABLE hbaseUserRatings (userid int,
+    > movieid int, rating int) STORED BY
+    > 'org.apache.hadoop.hive.hbase.HBaseStorageHandler' WITH
+    > SERDEPROPERTIES ("hbase.columns.mapping" =
+    > ":key,cf1:movieid,cf1:rating") TBLPROPERTIES
+    > ("hbase.table.name" = "hbaseUserRatings");
+OK
+Time taken: 2.853 seconds
+hive> 
+    > SELECT * FROM hbaseUserRatings;
+OK
+10000	4	NULL
+Time taken: 0.314 seconds
+hive> INSERT OVERWRITE TABLE hbaseUserRatings SELECT
+    > userid, (movieid+1), rating FROM hbaseUserRatings;
+Total MapReduce jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks is set to 0 since there's no reduce operator
+Starting Job = job_202303010630_0001, Tracking URL = http://0.0.0.0:50030/jobdetails.jsp?jobid=job_202303010630_0001
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -Dmapred.job.tracker=0.0.0.0:8021 -kill job_202303010630_0001
+Hadoop job information for Stage-0: number of mappers: 1; number of reducers: 0
+2023-03-01 08:31:48,292 Stage-0 map = 0%,  reduce = 0%
+2023-03-01 08:31:51,355 Stage-0 map = 100%,  reduce = 0%, Cumulative CPU 1.64 sec
+2023-03-01 08:31:52,383 Stage-0 map = 100%,  reduce = 100%, Cumulative CPU 1.64 sec
+MapReduce Total cumulative CPU time: 1 seconds 640 msec
+Ended Job = job_202303010630_0001
+1 Rows loaded to hbaseuserratings
+MapReduce Jobs Launched: 
+Job 0: Map: 1   Cumulative CPU: 1.64 sec   HDFS Read: 0 HDFS Write: 0 SUCCESS
+Total MapReduce CPU Time Spent: 1 seconds 640 msec
+OK
+Time taken: 8.886 seconds
+hive> INSERT OVERWRITE TABLE hbaseUserRatings SELECT
+    > userid, movieid, rating FROM UserRatings;
+Total MapReduce jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks is set to 0 since there's no reduce operator
+Starting Job = job_202303010630_0002, Tracking URL = http://0.0.0.0:50030/jobdetails.jsp?jobid=job_202303010630_0002
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -Dmapred.job.tracker=0.0.0.0:8021 -kill job_202303010630_0002
+Hadoop job information for Stage-0: number of mappers: 1; number of reducers: 0
+2023-03-01 08:47:01,661 Stage-0 map = 0%,  reduce = 0%
+2023-03-01 08:48:02,094 Stage-0 map = 0%,  reduce = 0%
+2023-03-01 08:48:10,151 Stage-0 map = 100%,  reduce = 0%, Cumulative CPU 9.15 sec
+2023-03-01 08:48:11,162 Stage-0 map = 100%,  reduce = 0%, Cumulative CPU 9.31 sec
+2023-03-01 08:48:12,171 Stage-0 map = 100%,  reduce = 0%, Cumulative CPU 9.31 sec
+2023-03-01 08:48:13,183 Stage-0 map = 100%,  reduce = 100%, Cumulative CPU 9.31 sec
+MapReduce Total cumulative CPU time: 9 seconds 310 msec
+Ended Job = job_202303010630_0002
+100000 Rows loaded to hbaseuserratings
+MapReduce Jobs Launched: 
+Job 0: Map: 1   Cumulative CPU: 9.31 sec   HDFS Read: 0 HDFS Write: 0 SUCCESS
+Total MapReduce CPU Time Spent: 9 seconds 310 msec
+OK
+Time taken: 75.314 seconds
+hive> 
