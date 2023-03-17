@@ -1,0 +1,447 @@
+[training@localhost ~]$ hbase
+Usage: hbase <command>
+where <command> an option from one of these categories:
+
+DBA TOOLS
+  shell            run the HBase shell
+  hbck             run the hbase 'fsck' tool
+  hlog             write-ahead-log analyzer
+  hfile            store file analyzer
+  zkcli            run the ZooKeeper shell
+
+PROCESS MANAGEMENT
+  master           run an HBase HMaster node
+  regionserver     run an HBase HRegionServer node
+  zookeeper        run a Zookeeper server
+  rest             run an HBase REST server
+  thrift           run an HBase Thrift server
+
+PACKAGE MANAGEMENT
+  classpath        dump hbase CLASSPATH
+  version          print the version
+
+ or
+  CLASSNAME        run the class named CLASSNAME
+Most commands print help when invoked w/o parameters.
+[training@localhost ~]$ hbase shell
+23/02/28 05:54:49 WARN conf.Configuration: hadoop.native.lib is deprecated. Instead, use io.native.lib.available
+HBase Shell; enter 'help<RETURN>' for list of supported commands.
+Type "exit<RETURN>" to leave the HBase Shell
+Version 0.92.1-cdh4.1.1, rUnknown, Tue Oct 16 11:44:19 PDT 2012
+
+hbase(main):001:0> [training@localhost ~]$ shell
+bash: shell: command not found
+[training@localhost ~]$ clear
+
+[training@localhost ~]$ hbase
+Usage: hbase <command>
+where <command> an option from one of these categories:
+DBA TOOLS
+  shell            run the HBase shell
+  hbck             run the hbase 'fsck' tool
+  hlog             write-ahead-log analyzer
+  hfile            store file analyzer
+  zkcli            run the ZooKeeper shell
+PROCESS MANAGEMENT
+  master           run an HBase HMaster node
+  regionserver     run an HBase HRegionServer node
+  zookeeper        run a Zookeeper server
+  rest             run an HBase REST server
+  thrift           run an HBase Thrift server
+PACKAGE MANAGEMENT
+  classpath        dump hbase CLASSPATH
+  version          print the version
+ or
+  CLASSNAME        run the class named CLASSNAME
+Most commands print help when invoked w/o parameters.
+[training@localhost ~]$ hbase shell
+23/02/28 05:56:39 WARN conf.Configuration: hadoop.native.lib is deprecated. Instead, use io.native.lib.available
+HBase Shell; enter 'help<RETURN>' for list of supported commands.
+Type "exit<RETURN>" to leave the HBase Shell
+Version 0.92.1-cdh4.1.1, rUnknown, Tue Oct 16 11:44:19 PDT 2012
+hbase(main):001:0> help
+HBase Shell, version 0.92.1-cdh4.1.1, rUnknown, Tue Oct 16 11:44:19 PDT 2012
+Type 'help "COMMAND"', (e.g. 'help "get"' -- the quotes are necessary) for help on a specific command.
+Commands are grouped. Type 'help "COMMAND_GROUP"', (e.g. 'help "general"') for help on a command group.
+COMMAND GROUPS:
+  Group name: general
+  Commands: status, version, whoami
+
+  Group name: ddl
+  Commands: alter, alter_async, alter_status, create, describe, disable, disable_all, drop, drop_all, enable, enable_all, exists, is_disabled, is_enabled, list, show_filters
+
+  Group name: dml
+  Commands: count, delete, deleteall, get, get_counter, incr, put, scan, truncate
+
+  Group name: tools
+  Commands: assign, balance_switch, balancer, close_region, compact, flush, hlog_roll, major_compact, move, split, unassign, zk_dump
+
+  Group name: replication
+  Commands: add_peer, disable_peer, enable_peer, list_peers, remove_peer, start_replication, stop_replication
+
+  Group name: security
+  Commands: grant, revoke, user_permission
+
+SHELL USAGE:
+Quote all names in HBase Shell such as table and column names.  Commas delimit
+command parameters.  Type <RETURN> after entering a command to run it.
+Dictionaries of configuration used in the creation and alteration of tables are
+Ruby Hashes. They look like this:
+
+  {'key1' => 'value1', 'key2' => 'value2', ...}
+
+and are opened and closed with curley-braces.  Key/values are delimited by the
+'=>' character combination.  Usually keys are predefined constants such as
+NAME, VERSIONS, COMPRESSION, etc.  Constants do not need to be quoted.  Type
+'Object.constants' to see a (messy) list of all constants in the environment.
+
+If you are using binary keys or values and need to enter them in the shell, use
+double-quote'd hexadecimal representation. For example:
+
+  hbase> get 't1', "key\x03\x3f\xcd"
+  hbase> get 't1', "key\003\023\011"
+  hbase> put 't1', "test\xef\xff", 'f1:', "\x01\x33\x40"
+
+The HBase shell is the (J)Ruby IRB with the above HBase-specific commands added.
+For more on the HBase Shell, see http://hbase.apache.org/docs/current/book.html
+hbase(main):002:0> create 'user',{Name => 'info', VERSIONS =>1}
+NameError: uninitialized constant Name
+
+hbase(main):003:0> describe 'user'
+
+ERROR: Failed to find table named user
+
+Here is some help for this command:
+Describe the named table. For example:
+  hbase> describe 't1'
+
+
+hbase(main):004:0> [training@localhost ~]$ clear
+
+[training@localhost ~]$ hbase
+Usage: hbase <command>
+where <command> an option from one of these categories:
+DBA TOOLS
+  shell            run the HBase shell
+  hbck             run the hbase 'fsck' tool
+  hlog             write-ahead-log analyzer
+  hfile            store file analyzer
+  zkcli            run the ZooKeeper shell
+PROCESS MANAGEMENT
+  master           run an HBase HMaster node
+  regionserver     run an HBase HRegionServer node
+  zookeeper        run a Zookeeper server
+  rest             run an HBase REST server
+  thrift           run an HBase Thrift server
+PACKAGE MANAGEMENT
+  classpath        dump hbase CLASSPATH
+  version          print the version
+ or
+  CLASSNAME        run the class named CLASSNAME
+Most commands print help when invoked w/o parameters.
+[training@localhost ~]$ hbase shell
+23/02/28 06:04:58 WARN conf.Configuration: hadoop.native.lib is deprecated. Instead, use io.native.lib.available
+HBase Shell; enter 'help<RETURN>' for list of supported commands.
+Type "exit<RETURN>" to leave the HBase Shell
+Version 0.92.1-cdh4.1.1, rUnknown, Tue Oct 16 11:44:19 PDT 2012
+hbase(main):001:0> help
+HBase Shell, version 0.92.1-cdh4.1.1, rUnknown, Tue Oct 16 11:44:19 PDT 2012
+Type 'help "COMMAND"', (e.g. 'help "get"' -- the quotes are necessary) for help on a specific command.
+Commands are grouped. Type 'help "COMMAND_GROUP"', (e.g. 'help "general"') for help on a command group.
+COMMAND GROUPS:
+  Group name: general
+  Commands: status, version, whoami
+
+  Group name: ddl
+  Commands: alter, alter_async, alter_status, create, describe, disable, disable_all, drop, drop_all, enable, enable_all, exists, is_disabled, is_enabled, list, show_filters
+
+  Group name: dml
+  Commands: count, delete, deleteall, get, get_counter, incr, put, scan, truncate
+
+  Group name: tools
+  Commands: assign, balance_switch, balancer, close_region, compact, flush, hlog_roll, major_compact, move, split, unassign, zk_dump
+
+  Group name: replication
+  Commands: add_peer, disable_peer, enable_peer, list_peers, remove_peer, start_replication, stop_replication
+
+  Group name: security
+  Commands: grant, revoke, user_permission
+
+SHELL USAGE:
+Quote all names in HBase Shell such as table and column names.  Commas delimit
+command parameters.  Type <RETURN> after entering a command to run it.
+Dictionaries of configuration used in the creation and alteration of tables are
+Ruby Hashes. They look like this:
+
+  {'key1' => 'value1', 'key2' => 'value2', ...}
+
+and are opened and closed with curley-braces.  Key/values are delimited by the
+'=>' character combination.  Usually keys are predefined constants such as
+NAME, VERSIONS, COMPRESSION, etc.  Constants do not need to be quoted.  Type
+'Object.constants' to see a (messy) list of all constants in the environment.
+
+If you are using binary keys or values and need to enter them in the shell, use
+double-quote'd hexadecimal representation. For example:
+
+  hbase> get 't1', "key\x03\x3f\xcd"
+  hbase> get 't1', "key\003\023\011"
+  hbase> put 't1', "test\xef\xff", 'f1:', "\x01\x33\x40"
+
+The HBase shell is the (J)Ruby IRB with the above HBase-specific commands added.
+For more on the HBase Shell, see http://hbase.apache.org/docs/current/book.html
+hbase(main):002:0> create 'user',(NAME => 'info' , VERSIONS => 1)
+SyntaxError: (hbase):2: syntax error, unexpected tASSOC
+
+create 'user',(NAME => 'info' , VERSIONS => 1)
+                     ^
+
+hbase(main):003:0> create 'user',(NAME =>'info' , VERSIONS => 1)
+SyntaxError: (hbase):3: syntax error, unexpected tASSOC
+
+create 'user',(NAME =>'info' , VERSIONS => 1)
+                     ^
+
+hbase(main):004:0> create 'user' , {NAME => 'info' , VERSIONS => 1}
+0 row(s) in 1.4400 seconds
+
+hbase(main):005:0> describe 'user'
+DESCRIPTION                                                                       ENABLED                                    
+ {NAME => 'user', FAMILIES => [{NAME => 'info', BLOOMFILTER => 'NONE', REPLICATIO true                                       
+ N_SCOPE => '0', VERSIONS => '1', COMPRESSION => 'NONE', MIN_VERSIONS => '0', TTL                                            
+  => '2147483647', BLOCKSIZE => '65536', IN_MEMORY => 'false', BLOCKCACHE => 'tru                                            
+ e'}]}                                                                                                                       
+1 row(s) in 0.0330 seconds
+
+hbase(main):006:0> scan 'user'
+ROW                              COLUMN+CELL                                                                                 
+0 row(s) in 0.0700 seconds
+
+hbase(main):007:0> clear
+NameError: undefined local variable or method `clear' for #<Object:0xfde050>
+
+hbase(main):008:0> [training@localhost ~]$ clear
+
+[training@localhost ~]$ hbase
+Usage: hbase <command>
+where <command> an option from one of these categories:
+DBA TOOLS
+  shell            run the HBase shell
+  hbck             run the hbase 'fsck' tool
+  hlog             write-ahead-log analyzer
+  hfile            store file analyzer
+  zkcli            run the ZooKeeper shell
+PROCESS MANAGEMENT
+  master           run an HBase HMaster node
+  regionserver     run an HBase HRegionServer node
+  zookeeper        run a Zookeeper server
+  rest             run an HBase REST server
+  thrift           run an HBase Thrift server
+PACKAGE MANAGEMENT
+  classpath        dump hbase CLASSPATH
+  version          print the version
+ or
+  CLASSNAME        run the class named CLASSNAME
+Most commands print help when invoked w/o parameters.
+[training@localhost ~]$ hbase shell
+23/02/28 06:14:48 WARN conf.Configuration: hadoop.native.lib is deprecated. Instead, use io.native.lib.available
+HBase Shell; enter 'help<RETURN>' for list of supported commands.
+Type "exit<RETURN>" to leave the HBase Shell
+Version 0.92.1-cdh4.1.1, rUnknown, Tue Oct 16 11:44:19 PDT 2012
+hbase(main):001:0> help
+HBase Shell, version 0.92.1-cdh4.1.1, rUnknown, Tue Oct 16 11:44:19 PDT 2012
+Type 'help "COMMAND"', (e.g. 'help "get"' -- the quotes are necessary) for help on a specific command.
+Commands are grouped. Type 'help "COMMAND_GROUP"', (e.g. 'help "general"') for help on a command group.
+COMMAND GROUPS:
+  Group name: general
+  Commands: status, version, whoami
+
+  Group name: ddl
+  Commands: alter, alter_async, alter_status, create, describe, disable, disable_all, drop, drop_all, enable, enable_all, exists, is_disabled, is_enabled, list, show_filters
+
+  Group name: dml
+  Commands: count, delete, deleteall, get, get_counter, incr, put, scan, truncate
+
+  Group name: tools
+  Commands: assign, balance_switch, balancer, close_region, compact, flush, hlog_roll, major_compact, move, split, unassign, zk_dump
+
+  Group name: replication
+  Commands: add_peer, disable_peer, enable_peer, list_peers, remove_peer, start_replication, stop_replication
+
+  Group name: security
+  Commands: grant, revoke, user_permission
+
+SHELL USAGE:
+Quote all names in HBase Shell such as table and column names.  Commas delimit
+command parameters.  Type <RETURN> after entering a command to run it.
+Dictionaries of configuration used in the creation and alteration of tables are
+Ruby Hashes. They look like this:
+
+  {'key1' => 'value1', 'key2' => 'value2', ...}
+
+and are opened and closed with curley-braces.  Key/values are delimited by the
+'=>' character combination.  Usually keys are predefined constants such as
+NAME, VERSIONS, COMPRESSION, etc.  Constants do not need to be quoted.  Type
+'Object.constants' to see a (messy) list of all constants in the environment.
+
+If you are using binary keys or values and need to enter them in the shell, use
+double-quote'd hexadecimal representation. For example:
+
+  hbase> get 't1', "key\x03\x3f\xcd"
+  hbase> get 't1', "key\003\023\011"
+  hbase> put 't1', "test\xef\xff", 'f1:', "\x01\x33\x40"
+
+The HBase shell is the (J)Ruby IRB with the above HBase-specific commands added.
+For more on the HBase Shell, see http://hbase.apache.org/docs/current/book.html
+hbase(main):002:0> create 'user' , {NAME => 'info' , VERSIONS => 1}
+
+ERROR: Table already exists: user!
+
+Here is some help for this command:
+Create table; pass table name, a dictionary of specifications per
+column family, and optionally a dictionary of table configuration.
+Dictionaries are described below in the GENERAL NOTES section.
+Examples:
+
+  hbase> create 't1', {NAME => 'f1', VERSIONS => 5}
+  hbase> create 't1', {NAME => 'f1'}, {NAME => 'f2'}, {NAME => 'f3'}
+  hbase> # The above in shorthand would be the following:
+  hbase> create 't1', 'f1', 'f2', 'f3'
+  hbase> create 't1', {NAME => 'f1', VERSIONS => 1, TTL => 2592000, BLOCKCACHE => true}
+  hbase> create 't1', 'f1', {SPLITS => ['10', '20', '30', '40']}
+  hbase> create 't1', 'f1', {SPLITS_FILE => 'splits.txt'}
+
+
+hbase(main):003:0> describe 'user'
+DESCRIPTION                                                                       ENABLED                                    
+ {NAME => 'user', FAMILIES => [{NAME => 'info', BLOOMFILTER => 'NONE', REPLICATIO true                                       
+ N_SCOPE => '0', VERSIONS => '1', COMPRESSION => 'NONE', MIN_VERSIONS => '0', TTL                                            
+  => '2147483647', BLOCKSIZE => '65536', IN_MEMORY => 'false', BLOCKCACHE => 'tru                                            
+ e'}]}                                                                                                                       
+1 row(s) in 0.0320 seconds
+
+hbase(main):004:0> scan 'user'
+ROW                              COLUMN+CELL                                                                                 
+0 row(s) in 0.0940 seconds
+
+hbase(main):005:0> put 'user','35', 'info:name','Doug'
+0 row(s) in 0.0310 seconds
+
+hbase(main):006:0> scan 'user'
+ROW                              COLUMN+CELL                                                                                 
+ 35                              column=info:name, timestamp=1677545349289, value=Doug                                       
+1 row(s) in 0.0270 seconds
+
+hbase(main):007:0> list
+TABLE                                                                                                                        
+user                                                                                                                         
+1 row(s) in 0.0280 seconds
+
+hbase(main):008:0> describe 'mytable'
+
+ERROR: Failed to find table named mytable
+
+Here is some help for this command:
+Describe the named table. For example:
+  hbase> describe 't1'
+
+
+hbase(main):009:0> create 'user' , {NAME => 'info' , VERSIONS => 1}
+
+ERROR: Table already exists: user!
+
+Here is some help for this command:
+Create table; pass table name, a dictionary of specifications per
+column family, and optionally a dictionary of table configuration.
+Dictionaries are described below in the GENERAL NOTES section.
+Examples:
+
+  hbase> create 't1', {NAME => 'f1', VERSIONS => 5}
+  hbase> create 't1', {NAME => 'f1'}, {NAME => 'f2'}, {NAME => 'f3'}
+  hbase> # The above in shorthand would be the following:
+  hbase> create 't1', 'f1', 'f2', 'f3'
+  hbase> create 't1', {NAME => 'f1', VERSIONS => 1, TTL => 2592000, BLOCKCACHE => true}
+  hbase> create 't1', 'f1', {SPLITS => ['10', '20', '30', '40']}
+  hbase> create 't1', 'f1', {SPLITS_FILE => 'splits.txt'}
+
+
+hbase(main):010:0> create 'mytable' ,'cf'
+0 row(s) in 1.1010 seconds
+
+hbase(main):011:0> describe 'mytable'
+DESCRIPTION                                                                       ENABLED                                    
+ {NAME => 'mytable', FAMILIES => [{NAME => 'cf', BLOOMFILTER => 'NONE', REPLICATI true                                       
+ ON_SCOPE => '0', VERSIONS => '3', COMPRESSION => 'NONE', MIN_VERSIONS => '0', TT                                            
+ L => '2147483647', BLOCKSIZE => '65536', IN_MEMORY => 'false', BLOCKCACHE => 'tr                                            
+ ue'}]}                                                                                                                      
+1 row(s) in 0.0470 seconds
+
+hbase(main):012:0> put  'mytable' , 'row1'
+
+ERROR: wrong number of arguments (2 for 4)
+
+Here is some help for this command:
+Put a cell 'value' at specified table/row/column and optionally
+timestamp coordinates.  To put a cell value into table 't1' at
+row 'r1' under column 'c1' marked with the time 'ts1', do:
+
+  hbase> put 't1', 'r1', 'c1', 'value', ts1
+
+
+hbase(main):013:0> put  'mytable' , 'row1',
+hbase(main):014:0* 'cf:col','foo'
+0 row(s) in 0.0130 seconds
+
+hbase(main):015:0> list
+TABLE                                                                                                                        
+mytable                                                                                                                      
+user                                                                                                                         
+2 row(s) in 0.0180 seconds
+
+hbase(main):016:0> put 'mytable' ,'row2','cf:col','bar'
+0 row(s) in 0.0100 seconds
+
+hbase(main):017:0> scan 'mytable'
+ROW                              COLUMN+CELL                                                                                 
+ row1                            column=cf:col, timestamp=1677545711726, value=foo                                           
+ row2                            column=cf:col, timestamp=1677545875028, value=bar                                           
+2 row(s) in 0.0290 seconds
+
+hbase(main):018:0> flush 'mytable'
+0 row(s) in 0.1110 seconds
+
+hbase(main):019:0> put 'mytable' ,'row3','cf:col','mag'
+0 row(s) in 0.0110 seconds
+
+hbase(main):020:0> flush 'mytable'
+0 row(s) in 0.5590 seconds
+
+hbase(main):021:0> major_compact 'mytable'
+0 row(s) in 0.0560 seconds
+
+hbase(main):022:0> get 'mytable','row2','cf:col','bar'
+COLUMN                           CELL                                                                                        
+
+ERROR: Unknown column family! Valid column names: cf:*
+
+Here is some help for this command:
+Get row or cell contents; pass table name, row, and optionally
+a dictionary of column(s), timestamp, timerange and versions. Examples:
+
+  hbase> get 't1', 'r1'
+  hbase> get 't1', 'r1', {TIMERANGE => [ts1, ts2]}
+  hbase> get 't1', 'r1', {COLUMN => 'c1'}
+  hbase> get 't1', 'r1', {COLUMN => ['c1', 'c2', 'c3']}
+  hbase> get 't1', 'r1', {COLUMN => 'c1', TIMESTAMP => ts1}
+  hbase> get 't1', 'r1', {COLUMN => 'c1', TIMERANGE => [ts1, ts2], VERSIONS => 4}
+  hbase> get 't1', 'r1', {COLUMN => 'c1', TIMESTAMP => ts1, VERSIONS => 4}
+  hbase> get 't1', 'r1', 'c1'
+  hbase> get 't1', 'r1', 'c1', 'c2'
+  hbase> get 't1', 'r1', ['c1', 'c2']
+
+
+hbase(main):023:0> get 'mytable','row2'
+COLUMN                           CELL                                                                                        
+ cf:col                          timestamp=1677545875028, value=bar                                                          
+1 row(s) in 0.0210 seconds
+
+hbase(main):024:0> 
