@@ -1,0 +1,101 @@
+[training@localhost ~]$ hbase
+Usage: hbase <command>
+where <command> an option from one of these categories:
+
+DBA TOOLS
+  shell            run the HBase shell
+  hbck             run the hbase 'fsck' tool
+  hlog             write-ahead-log analyzer
+  hfile            store file analyzer
+  zkcli            run the ZooKeeper shell
+
+PROCESS MANAGEMENT
+  master           run an HBase HMaster node
+  regionserver     run an HBase HRegionServer node
+  zookeeper        run a Zookeeper server
+  rest             run an HBase REST server
+  thrift           run an HBase Thrift server
+
+PACKAGE MANAGEMENT
+  classpath        dump hbase CLASSPATH
+  version          print the version
+
+ or
+  CLASSNAME        run the class named CLASSNAME
+Most commands print help when invoked w/o parameters.
+[training@localhost ~]$ hbase shell
+23/03/01 08:40:29 WARN conf.Configuration: hadoop.native.lib is deprecated. Instead, use io.native.lib.available
+HBase Shell; enter 'help<RETURN>' for list of supported commands.
+Type "exit<RETURN>" to leave the HBase Shell
+Version 0.92.1-cdh4.1.1, rUnknown, Tue Oct 16 11:44:19 PDT 2012
+
+hbase(main):001:0> create 'hbaseuser','cf1'
+0 row(s) in 1.3960 seconds
+
+hbase(main):002:0> put  'hbaseuser','10000','cf1:movieid','35'
+0 row(s) in 0.0630 seconds
+hbase(main):003:0> put  'hbaseuser','10000','cf1:rating','5'
+0 row(s) in 0.0120 seconds
+
+hbase(main):004:0> put  'hbaseuser','110000','cf1:rating','4'
+0 row(s) in 0.0130 seconds
+
+hbase(main):005:0> put  'hbaseuser','110000','cf1:movieid','5'
+0 row(s) in 0.0130 seconds
+
+hbase(main):006:0> scan 'hbaseuser'
+ROW                              COLUMN+CELL                                                                                 
+ 10000                           column=cf1:movieid, timestamp=1677640424975, value=35                                       
+ 10000                           column=cf1:rating, timestamp=1677640448554, value=5                                         
+ 110000                          column=cf1:movieid, timestamp=1677640497019, value=5                                        
+ 110000                          column=cf1:rating, timestamp=1677640470987, value=4                                         
+2 row(s) in 0.0300 seconds
+
+hbase(main):007:0> create 'hbaseUserRatings', 'cf1'
+0 row(s) in 1.0380 seconds
+
+hbase(main):008:0> put  'hbaseuserRatings','10000','cf1:movieid','35'
+
+ERROR: Unknown table hbaseuserRatings!
+
+Here is some help for this command:
+Put a cell 'value' at specified table/row/column and optionally
+timestamp coordinates.  To put a cell value into table 't1' at
+row 'r1' under column 'c1' marked with the time 'ts1', do:
+
+  hbase> put 't1', 'r1', 'c1', 'value', ts1
+
+
+hbase(main):009:0> put 'hbaseUserRatings','10000','cf1:movieid','42'
+0 row(s) in 0.0240 seconds
+
+hbase(main):010:0> put 'hbaseUserRatings','10000','cf1:rating','5'
+0 row(s) in 0.0110 seconds
+
+hbase(main):011:0> put 'hbaseUserRatings','11000','cf1:movieid','21'
+0 row(s) in 0.0080 seconds
+
+hbase(main):012:0> put 'hbaseUserRatings','11000','cf1:rating', '4'
+0 row(s) in 0.0080 seconds
+
+hbase(main):013:0> scan 'hbaseUserRatings'
+ROW                              COLUMN+CELL                                                                                 
+ 10000                           column=cf1:movieid, timestamp=1677643187796, value=42                                       
+ 10000                           column=cf1:rating, timestamp=1677643206182, value=5                                         
+ 11000                           column=cf1:movieid, timestamp=1677643219789, value=21                                       
+ 11000                           column=cf1:rating, timestamp=1677643238561, value=4                                         
+2 row(s) in 0.0210 seconds
+
+hbase(main):014:0> scan 'hbaseUserRatings', {VERSIONS=>3}
+ROW                              COLUMN+CELL                                                                                 
+ 10000                           column=cf1:movieid, timestamp=1677643407861, value=43                                       
+ 10000                           column=cf1:movieid, timestamp=1677643187796, value=42                                       
+ 10000                           column=cf1:rating, timestamp=1677643407861, value=5                                         
+ 10000                           column=cf1:rating, timestamp=1677643206182, value=5                                         
+ 11000                           column=cf1:movieid, timestamp=1677643407861, value=22                                       
+ 11000                           column=cf1:movieid, timestamp=1677643219789, value=21                                       
+ 11000                           column=cf1:rating, timestamp=1677643407861, value=4                                         
+ 11000                           column=cf1:rating, timestamp=1677643238561, value=4                                         
+2 row(s) in 0.0750 seconds
+
+hbase(main):015:0> 
